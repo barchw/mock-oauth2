@@ -25,7 +25,7 @@ func main() {
 		issuerUrl = "http://mock-oauth2.kyma-system.svc.cluster.local"
 	}
 
-	rsaKey, err := rsa.GenerateKey(rand.Reader, 1024)
+	rsaKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		panic(err)
 	}
@@ -36,6 +36,16 @@ func main() {
 	}
 
 	err = jwkFromKey.Set("kid", "1")
+	if err != nil {
+		panic(err)
+	}
+
+	err = jwkFromKey.Set("use", "sig")
+	if err != nil {
+		panic(err)
+	}
+
+	err = jwkFromKey.Set("alg", "RS256")
 	if err != nil {
 		panic(err)
 	}
