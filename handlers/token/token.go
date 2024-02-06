@@ -1,7 +1,6 @@
 package token
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lestrrat-go/jwx/v2/jwa"
 	"github.com/lestrrat-go/jwx/v2/jwk"
@@ -35,7 +34,6 @@ func (h Handler) Handle(c *gin.Context) {
 	scope := c.PostForm(scope)
 
 	tokenFormat := c.Query("token_format")
-	fmt.Printf("token_format=%s", tokenFormat)
 
 	switch grant {
 	case "client_credentials":
