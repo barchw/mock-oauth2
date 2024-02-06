@@ -34,9 +34,8 @@ func (h Handler) Handle(c *gin.Context) {
 	grant := c.PostForm(grantType)
 	scope := c.PostForm(scope)
 
-	fmt.Printf("%#v\n", c.Request)
-
 	tokenFormat := c.Query("token_format")
+	fmt.Printf("token_format=%s", tokenFormat)
 
 	switch grant {
 	case "client_credentials":
