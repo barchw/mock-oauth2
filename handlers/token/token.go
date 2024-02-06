@@ -76,11 +76,14 @@ func (h Handler) Handle(c *gin.Context) {
 }
 
 func (h Handler) NewRSAJWT(scp string, aud string) ([]byte, error) {
-	builder := jwt.NewBuilder().Issuer(h.IssuerURL).IssuedAt(time.Now()).Expiration(time.Now().Add(1 * time.Hour))
+	builder := jwt.NewBuilder().Issuer(h.IssuerURL).NotBefore(time.Now()).IssuedAt(time.Now()).Expiration(time.Now().Add(1 * time.Hour))
 
-	if aud != "" {
-		builder.Audience([]string{aud})
+	if aud == "" {
+		aud = "default"
 	}
+
+	builder.Subject("test")
+	builder.Audience([]string{aud})
 
 	if scp != "" {
 		builder.Claim("scope", scp)
