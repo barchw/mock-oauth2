@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lestrrat-go/jwx/v2/jwa"
 	"github.com/lestrrat-go/jwx/v2/jwk"
@@ -32,6 +33,8 @@ func NewHandler(readToken uuid.UUID, noScopeToken uuid.UUID, issuer string, key 
 func (h Handler) Handle(c *gin.Context) {
 	grant := c.PostForm(grantType)
 	scope := c.PostForm(scope)
+
+	fmt.Printf("%#v\n", c.Request)
 
 	tokenFormat := c.Query("token_format")
 
