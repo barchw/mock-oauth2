@@ -3,7 +3,6 @@ package introspect
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/lestrrat-go/jwx/v2/jwk"
 	"github.com/lestrrat-go/jwx/v2/jwt"
 	"net/http"
 )
@@ -14,13 +13,13 @@ const (
 )
 
 type Handler struct {
-	ReadToken    uuid.UUID
-	NoScopeToken uuid.UUID
-	JWK          jwk.Set
+	ReadToken      uuid.UUID
+	ReadWriteToken uuid.UUID
+	NoScopeToken   uuid.UUID
 }
 
-func NewHandler(readToken uuid.UUID, noScopeToken uuid.UUID) *Handler {
-	return &Handler{ReadToken: readToken, NoScopeToken: noScopeToken}
+func NewHandler(readToken uuid.UUID, readWriteToken uuid.UUID, noScopeToken uuid.UUID) *Handler {
+	return &Handler{ReadToken: readToken, ReadWriteToken: readWriteToken, NoScopeToken: noScopeToken}
 }
 
 func (h Handler) Handle(c *gin.Context) {
@@ -31,6 +30,11 @@ func (h Handler) Handle(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			active: true,
 			scope:  "read",
+		})
+	case h.ReadWriteToken.String():
+		c.JSON(http.StatusOK, gin.H{
+			active: true,
+			scope:  "read write",
 		})
 	case h.NoScopeToken.String():
 		c.JSON(http.StatusOK, gin.H{

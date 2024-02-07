@@ -19,6 +19,7 @@ func main() {
 
 	readToken := uuid.New()
 	noScopeToken := uuid.New()
+	readWriteToken := uuid.New()
 
 	issuerUrl, ok := os.LookupEnv("iss")
 	if !ok {
@@ -55,8 +56,8 @@ func main() {
 		panic(err)
 	}
 
-	tokenHandler := token.NewHandler(readToken, noScopeToken, issuerUrl, jwkFromKey)
-	introspectHandler := introspect.NewHandler(readToken, noScopeToken)
+	tokenHandler := token.NewHandler(readToken, readWriteToken, noScopeToken, issuerUrl, jwkFromKey)
+	introspectHandler := introspect.NewHandler(readToken, readWriteToken, noScopeToken)
 	jwksHandler := jwks.Handler{JWK: publicKey}
 	openIdHandler := openIdConfig.Handler{Iss: issuerUrl}
 

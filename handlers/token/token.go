@@ -20,14 +20,15 @@ const (
 )
 
 type Handler struct {
-	ReadToken    uuid.UUID
-	NoScopeToken uuid.UUID
-	IssuerURL    string
-	Key          jwk.Key
+	ReadToken      uuid.UUID
+	NoScopeToken   uuid.UUID
+	ReadWriteToken uuid.UUID
+	IssuerURL      string
+	Key            jwk.Key
 }
 
-func NewHandler(readToken uuid.UUID, noScopeToken uuid.UUID, issuer string, key jwk.Key) *Handler {
-	return &Handler{ReadToken: readToken, NoScopeToken: noScopeToken, IssuerURL: issuer, Key: key}
+func NewHandler(readToken uuid.UUID, readWriteToken, noScopeToken uuid.UUID, issuer string, key jwk.Key) *Handler {
+	return &Handler{ReadToken: readToken, ReadWriteToken: readWriteToken, NoScopeToken: noScopeToken, IssuerURL: issuer, Key: key}
 }
 
 func (h Handler) Handle(c *gin.Context) {
@@ -41,6 +42,12 @@ func (h Handler) Handle(c *gin.Context) {
 		switch tokenFormat {
 		case "opaque":
 			switch scope {
+			default:
+				c.JSON(http.StatusOK, gin.H{
+					"access_token": h.ReadWriteToken,
+					"token_type":   "Bearer",
+					"expires_in":   3600,
+				})
 			case "read":
 				c.JSON(http.StatusOK, gin.H{
 					"access_token": h.ReadToken,
