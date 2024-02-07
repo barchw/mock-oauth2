@@ -1,7 +1,6 @@
 package token
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lestrrat-go/jwx/v2/jwa"
 	"github.com/lestrrat-go/jwx/v2/jwk"
@@ -69,7 +68,6 @@ func (h Handler) Handle(c *gin.Context) {
 			fallthrough
 		case "jwt":
 			aud := c.PostForm(audience)
-			fmt.Printf("%#v\n", c.Request.PostForm)
 			rsaJwt, err := h.NewRSAJWT(scope, aud)
 			if err != nil {
 				_ = c.Error(err)
