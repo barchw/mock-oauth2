@@ -36,6 +36,9 @@ func (h Handler) Handle(c *gin.Context) {
 	scope := c.PostForm(scope)
 
 	tokenFormat := c.Query("token_format")
+	if tokenFormat == "" {
+		tokenFormat = c.PostForm("token_format")
+	}
 
 	switch grant {
 	case "client_credentials":
