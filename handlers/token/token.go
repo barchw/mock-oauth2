@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lestrrat-go/jwx/v2/jwa"
 	"github.com/lestrrat-go/jwx/v2/jwk"
+	"strings"
 
 	"github.com/lestrrat-go/jwx/v2/jwt"
 
@@ -80,7 +81,7 @@ func (h Handler) NewRSAJWT(scp string, aud string) ([]byte, error) {
 	}
 
 	builder.Subject("test")
-	builder.Audience([]string{aud})
+	builder.Audience(strings.Split(aud, ","))
 
 	if scp != "" {
 		builder.Claim("scope", scp)
