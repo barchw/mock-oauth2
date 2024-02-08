@@ -61,8 +61,8 @@ func main() {
 	jwksHandler := jwks.Handler{JWK: publicKey}
 	openIdHandler := openIdConfig.Handler{Iss: issuerUrl}
 
-	r.POST("/token", tokenHandler.Handle)
-	r.POST("/introspect", introspectHandler.Handle)
+	r.POST("/oauth2/token", tokenHandler.Handle)
+	r.POST("/oauth2/introspect", introspectHandler.Handle)
 	r.GET("/oauth2/certs", jwksHandler.Handle)
 	r.GET("/.well-known/openid-configuration", openIdHandler.Handle)
 
